@@ -1,7 +1,8 @@
 #include <mbgl/style/expression/collator.hpp>
 
-// TODO: This stub should wrap NSString comparison calls
-// w/ NSDiacriticInsensitiveSearch etc. options
+// TODO: This Android collator stub should hook up to
+// https://developer.android.com/reference/java/text/Collator
+// via JNI
 
 namespace mbgl {
 namespace style {

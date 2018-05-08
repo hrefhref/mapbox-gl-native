@@ -1,7 +1,8 @@
 #include <mbgl/style/expression/collator.hpp>
 
-// TODO: This stub should wrap NSString comparison calls
-// w/ NSDiacriticInsensitiveSearch etc. options
+// TODO: Currently a stub, but should hook up to a mason-bundled ICU for
+// collator functionality. Only used on platforms that don't have natively
+// exposed collators, because the bundling is expensive.
 
 namespace mbgl {
 namespace style {
