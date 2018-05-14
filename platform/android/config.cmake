@@ -38,8 +38,9 @@ macro(mbgl_platform_core)
 
         # Misc
         PRIVATE platform/android/src/text/collator.cpp
-        PRIVATE platform/android/src/text/local_glyph_rasterizer_jni.hpp
+        PRIVATE platform/android/src/text/collator_jni.hpp
         PRIVATE platform/android/src/text/local_glyph_rasterizer.cpp
+        PRIVATE platform/android/src/text/local_glyph_rasterizer_jni.hpp
         PRIVATE platform/android/src/logging_android.cpp
         PRIVATE platform/android/src/thread.cpp
         PRIVATE platform/default/string_stdlib.cpp
