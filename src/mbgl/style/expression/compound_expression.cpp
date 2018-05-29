@@ -1,3 +1,4 @@
+#include <mbgl/style/expression/collator.hpp>
 #include <mbgl/style/expression/compound_expression.hpp>
 #include <mbgl/style/expression/check_subtype.hpp>
 #include <mbgl/style/expression/util.hpp>
@@ -481,12 +482,16 @@ std::unordered_map<std::string, CompoundExpressionRegistry::Definition> initiali
 
     define(">", [](double lhs, double rhs) -> Result<bool> { return lhs > rhs; });
     define(">", [](const std::string& lhs, const std::string& rhs) -> Result<bool> { return lhs > rhs; });
+    define(">", [](const std::string& lhs, const std::string& rhs, const Collator& c) -> Result<bool> { return c.compare(lhs, rhs) > 0; });
     define(">=", [](double lhs, double rhs) -> Result<bool> { return lhs >= rhs; });
     define(">=",[](const std::string& lhs, const std::string& rhs) -> Result<bool> { return lhs >= rhs; });
+    define(">=", [](const std::string& lhs, const std::string& rhs, const Collator& c) -> Result<bool> { return c.compare(lhs, rhs) >= 0; });
     define("<", [](double lhs, double rhs) -> Result<bool> { return lhs < rhs; });
     define("<", [](const std::string& lhs, const std::string& rhs) -> Result<bool> { return lhs < rhs; });
+    define("<", [](const std::string& lhs, const std::string& rhs, const Collator& c) -> Result<bool> { return c.compare(lhs, rhs) < 0; });
     define("<=", [](double lhs, double rhs) -> Result<bool> { return lhs <= rhs; });
     define("<=", [](const std::string& lhs, const std::string& rhs) -> Result<bool> { return lhs <= rhs; });
+    define("<=", [](const std::string& lhs, const std::string& rhs, const Collator& c) -> Result<bool> { return c.compare(lhs, rhs) <= 0; });
 
     define("!", [](bool e) -> Result<bool> { return !e; });
     
@@ -507,6 +512,10 @@ std::unordered_map<std::string, CompoundExpressionRegistry::Definition> initiali
         }
         return s;
     });
+    define("resolved-locale", [](const Collator& collator) -> Result<std::string> {
+        return collator.resolvedLocale();
+    });
+    
     define("error", [](const std::string& input) -> Result<type::ErrorType> {
         return EvaluationError { input };
     });
