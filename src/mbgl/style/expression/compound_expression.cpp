@@ -1,3 +1,4 @@
+#include <boost/algorithm/string/join.hpp>
 #include <mbgl/style/expression/collator.hpp>
 #include <mbgl/style/expression/compound_expression.hpp>
 #include <mbgl/style/expression/check_subtype.hpp>
@@ -758,26 +759,35 @@ ParseResult createCompoundExpression(const Definition& definition,
     if (definition.size() == 1) {
         ctx.appendErrors(std::move(signatureContext));
     } else {
-        std::string signatures;
+        std::vector<std::string> availableOverloads; // Only used if there are no overloads with matching number of args
+        std::vector<std::string> overloads;
         for (const auto& signature : definition) {
-            signatures += (signatures.size() > 0 ? " | " : "");
             signature->params.match(
                 [&](const VarargsType& varargs) {
-                    signatures += "(" + toString(varargs.type) + ")";
+                    std::string overload = "(" + toString(varargs.type) + ")";
+                    overloads.push_back(overload);
                 },
                 [&](const std::vector<type::Type>& params) {
-                    signatures += "(";
+                    std::string overload = "(";
                     bool first = true;
                     for (const type::Type& param : params) {
-                        if (!first) signatures += ", ";
-                        signatures += toString(param);
+                        if (!first) overload += ", ";
+                        overload += toString(param);
                         first = false;
                     }
-                    signatures += ")";
+                    overload += ")";
+                    if (params.size() == args.size()) {
+                        overloads.push_back(overload);
+                    } else {
+                        availableOverloads.push_back(overload);
+                    }
                 }
             );
             
         }
+        std::string signatures = overloads.empty() ?
+            boost::algorithm::join(availableOverloads, " | ") :
+            boost::algorithm::join(overloads, " | ");
         std::string actualTypes;
         for (const auto& arg : args) {
             if (actualTypes.size() > 0) {
