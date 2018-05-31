@@ -107,6 +107,7 @@ struct bcp47_parser : qi::grammar<Iterator>
         using qi::lit;
         using qi::repeat;
         using qi::inf;
+        using qi::eoi;
         using ascii::char_;
         using ascii::no_case;
         using ascii::digit;
@@ -129,12 +130,13 @@ struct bcp47_parser : qi::grammar<Iterator>
             | repeat(4)[alpha]                                    // or reserved for future use
             | repeat(5,8)[alpha];                                 // or registered language subtag
 
-        // TODO: figure out why this is matching for e.g. de-Hans (and causing parse failure)
-        extlang = lit("don't match");//  repeat(3)[alpha] >> repeat(0,2)["-" >> repeat(3)[alpha]];
+        // extlang adds a lookahead for "-"/eoi so that a spurious match against the first three
+        // characters of script doesn't prevent backtracking.
+        extlang = repeat(3)[alpha] >> (&lit('-') | eoi) >> repeat(0,2)["-" >> repeat(3)[alpha] >> (&lit('-') | eoi)];
         
-        script %= repeat(4)[alpha];
+        script = repeat(4)[alpha];
         
-        region %= repeat(2)[alpha] | repeat(3)[digit];
+        region = repeat(2)[alpha] | repeat(3)[digit];
         
         variant = repeat(5,8)[alnum] | (digit >> repeat(3,inf)[alnum]);
         
