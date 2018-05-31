@@ -30,7 +30,7 @@
 namespace mbgl {
     
 struct LanguageTag {
-    LanguageTag() {};
+    LanguageTag() = default;
     LanguageTag(optional<std::string> language_, optional<std::string> script_, optional<std::string> region_);
     
     static LanguageTag fromBCP47(const std::string& bcp47Tag);
