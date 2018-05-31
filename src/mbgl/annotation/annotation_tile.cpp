@@ -65,7 +65,7 @@ GeometryCollection AnnotationTileFeature::getGeometries() const {
 
 class AnnotationTileLayerData {
 public:
-    AnnotationTileLayerData(const std::string& name_) : name(name_) {
+    AnnotationTileLayerData(std::string  name_) : name(std::move(name_)) {
     }
 
     const std::string name;

@@ -2,6 +2,7 @@
 #include <mbgl/renderer/layers/render_raster_layer.hpp>
 #include <mbgl/programs/raster_program.hpp>
 #include <mbgl/gl/context.hpp>
+#include <utility>
 
 namespace mbgl {
 
@@ -11,7 +12,7 @@ RasterBucket::RasterBucket(PremultipliedImage&& image_) {
     image = std::make_shared<PremultipliedImage>(std::move(image_));
 }
 
-RasterBucket::RasterBucket(std::shared_ptr<PremultipliedImage> image_): image(image_) {
+RasterBucket::RasterBucket(std::shared_ptr<PremultipliedImage> image_): image(std::move(image_)) {
 
 }
 

@@ -682,7 +682,7 @@ void Renderer::Impl::queryRenderedSymbols(std::unordered_map<std::string, std::v
     auto renderedSymbols = placement->getCollisionIndex().queryRenderedSymbols(geometry);
     std::vector<std::reference_wrapper<const RetainedQueryData>> bucketQueryData;
     for (auto entry : renderedSymbols) {
-        bucketQueryData.push_back(placement->getQueryData(entry.first));
+        bucketQueryData.emplace_back(placement->getQueryData(entry.first));
     }
     // Although symbol query is global, symbol results are only sortable within a bucket
     // For a predictable global sort order, we sort the buckets based on their corresponding tile position

@@ -15,7 +15,7 @@ CGImageRef CGImageCreateWithMGLPremultipliedImage(mbgl::PremultipliedImage&& src
     // We're converting the PremultipliedImage's backing store to a CGDataProvider, and are taking
     // over ownership of the memory.
     CGDataProviderHandle provider(CGDataProviderCreateWithData(
-        NULL, src.data.get(), src.bytes(), [](void*, const void* data, size_t) {
+        nullptr, src.data.get(), src.bytes(), [](void*, const void* data, size_t) {
             delete[] reinterpret_cast<const decltype(src.data)::element_type*>(data);
         }));
     if (!provider) {
@@ -38,7 +38,7 @@ CGImageRef CGImageCreateWithMGLPremultipliedImage(mbgl::PremultipliedImage&& src
     return CGImageCreate(src.size.width, src.size.height, bitsPerComponent, bitsPerPixel,
                          bytesPerRow, *colorSpace,
                          kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast, *provider,
-                         NULL, false, kCGRenderingIntentDefault);
+                         nullptr, false, kCGRenderingIntentDefault);
 }
 
 mbgl::PremultipliedImage MGLPremultipliedImageFromCGImage(CGImageRef src) {
@@ -79,12 +79,12 @@ PremultipliedImage decodeImage(const std::string& source) {
         throw std::runtime_error("CFDataCreateWithBytesNoCopy failed");
     }
 
-    CGImageSourceHandle imageSource(CGImageSourceCreateWithData(*data, NULL));
+    CGImageSourceHandle imageSource(CGImageSourceCreateWithData(*data, nullptr));
     if (!imageSource) {
         throw std::runtime_error("CGImageSourceCreateWithData failed");
     }
 
-    CGImageHandle image(CGImageSourceCreateImageAtIndex(*imageSource, 0, NULL));
+    CGImageHandle image(CGImageSourceCreateImageAtIndex(*imageSource, 0, nullptr));
     if (!image) {
         throw std::runtime_error("CGImageSourceCreateImageAtIndex failed");
     }

@@ -124,7 +124,7 @@ void RenderSymbolLayer::render(PaintParameters& parameters, RenderSource*) {
         };
 
         assert(dynamic_cast<GeometryTile*>(&tile.tile));
-        GeometryTile& geometryTile = static_cast<GeometryTile&>(tile.tile);
+        auto& geometryTile = static_cast<GeometryTile&>(tile.tile);
 
         if (bucket.hasIconData()) {
             auto values = iconPropertyValues(layout);

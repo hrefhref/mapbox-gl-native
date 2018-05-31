@@ -11,4 +11,4 @@ void Log::platformRecord(EventSeverity severity, const std::string &msg) {
     NSLog(@"[%s] %@", Enum<EventSeverity>::toString(severity), message);
 }
 
-}
+} // namespace mbgl

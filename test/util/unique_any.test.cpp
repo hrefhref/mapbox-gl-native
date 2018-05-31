@@ -6,10 +6,10 @@ using namespace mbgl::util;
 
 class TestType {
 public:
-    TestType() : i1(0), i2(1) {
+    TestType() {
         str[0] = 'a';
     }
-    
+
     TestType(unique_any& p) : TestType() {
         p = std::unique_ptr<TestType>(this);
     }
@@ -19,14 +19,14 @@ public:
         str[0] = t.str[0]+1;
     }
 
-    int i1;
-    int i2;
+    int i1{0};
+    int i2{1};
     char str[256];
 };
 
 bool  IsStackAllocated (const unique_any& a, const void* obj1) {
-    uintptr_t a_ptr = (uintptr_t)(&a);
-    uintptr_t obj   = (uintptr_t)(obj1);
+    auto a_ptr = (uintptr_t)(&a);
+    auto obj   = (uintptr_t)(obj1);
     return (obj >= a_ptr && obj < a_ptr + sizeof(unique_any));
 };
 
@@ -53,7 +53,7 @@ TEST(UniqueAny, BasicTypes) {
     EXPECT_TRUE(f.type() == typeid(float));
     EXPECT_TRUE(IsStackAllocated(f, any_cast<float>(&f)));
 
-    const float fValue = any_cast<const float>(f);
+    const auto fValue = any_cast<const float>(f);
     EXPECT_TRUE(fValue == 6.2f);
 
     EXPECT_TRUE(unique_any(1.0f).has_value());
@@ -133,7 +133,7 @@ TEST(UniqueAny, Pointer) {
 
     EXPECT_TRUE(u2.has_value());
     EXPECT_TRUE(u2.type() == typeid(TestType *));
-    
+
     t2 = *any_cast<TestType *>(&u2);
     EXPECT_EQ(t2->i1, 0);
     delete t2;
@@ -152,9 +152,9 @@ TEST(UniqueAny, UniquePtr) {
 
     auto t2 = any_cast<std::unique_ptr<TestType> >(std::move(u1));
     EXPECT_FALSE(u1.has_value());
-    
+
     unique_any u2;
-    TestType * t3 = new TestType();
+    auto * t3 = new TestType();
     u2 = std::unique_ptr<TestType>(t3);
     EXPECT_TRUE(u2.has_value());
     EXPECT_TRUE(any_cast<std::unique_ptr<TestType>>(&u2)->get() == t3);

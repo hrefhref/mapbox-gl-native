@@ -13,6 +13,7 @@
 #include <mbgl/renderer/buckets/symbol_bucket.hpp> // For PlacedSymbol: pull out to another location
 
 #include <cmath>
+#include <utility>
 
 namespace mbgl {
 
@@ -24,8 +25,8 @@ namespace mbgl {
 // stability, but it's expensive.
 static const float viewportPadding = 100;
 
-CollisionIndex::CollisionIndex(const TransformState& transformState_)
-    : transformState(transformState_)
+CollisionIndex::CollisionIndex(TransformState  transformState_)
+    : transformState(std::move(transformState_))
     , collisionGrid(transformState.getSize().width + 2 * viewportPadding, transformState.getSize().height + 2 * viewportPadding, 25)
     , ignoredGrid(transformState.getSize().width + 2 * viewportPadding, transformState.getSize().height + 2 * viewportPadding, 25)
     , screenRightBoundary(transformState.getSize().width + viewportPadding)

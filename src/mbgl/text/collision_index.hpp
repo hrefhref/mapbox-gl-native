@@ -15,7 +15,7 @@ class CollisionIndex {
 public:
     using CollisionGrid = GridIndex<IndexedSubfeature>;
 
-    explicit CollisionIndex(const TransformState&);
+    explicit CollisionIndex(TransformState );
 
     std::pair<bool,bool> placeFeature(CollisionFeature& feature,
                                       const mat4& posMatrix,

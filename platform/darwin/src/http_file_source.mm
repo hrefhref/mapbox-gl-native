@@ -10,6 +10,7 @@
 
 #include <mutex>
 #include <chrono>
+#include <utility>
 
 @interface MBGLBundleCanary : NSObject
 @end
@@ -52,7 +53,7 @@ class HTTPRequest : public AsyncRequest {
 public:
     HTTPRequest(FileSource::Callback callback_)
         : shared(std::make_shared<HTTPRequestShared>(response, async)),
-          callback(callback_) {
+          callback(std::move(callback_)) {
     }
 
     ~HTTPRequest() override {
@@ -335,4 +336,4 @@ std::unique_ptr<AsyncRequest> HTTPFileSource::request(const Resource& resource, 
     return std::move(request);
 }
 
-}
+} // namespace mbgl
