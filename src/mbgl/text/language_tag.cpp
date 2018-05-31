@@ -130,21 +130,20 @@ struct bcp47_parser : qi::grammar<Iterator>
             | repeat(4)[alpha]                                    // or reserved for future use
             | repeat(5,8)[alpha];                                 // or registered language subtag
 
-        // extlang adds a lookahead for "-"/eoi so that a spurious match against the first three
-        // characters of script doesn't prevent backtracking.
+        // We add lookaheads for "-"/eoi so that spurious matches on subtags don't prevent backtracking
         extlang = repeat(3)[alpha] >> (&lit('-') | eoi) >> repeat(0,2)["-" >> repeat(3)[alpha] >> (&lit('-') | eoi)];
         
-        script = repeat(4)[alpha];
+        script = repeat(4)[alpha] >> (&lit('-') | eoi);
         
-        region = repeat(2)[alpha] | repeat(3)[digit];
+        region = (repeat(2)[alpha] | repeat(3)[digit]) >> (&lit('-') | eoi);
         
-        variant = repeat(5,8)[alnum] | (digit >> repeat(3,inf)[alnum]);
+        variant = (repeat(5,8)[alnum] | (digit >> repeat(3,inf)[alnum])) >> (&lit('-') | eoi);
         
-        extension = singleton >> +("-" >> repeat(2,8)[alnum]);
+        extension = singleton >> +("-" >> repeat(2,8)[alnum]) >> (&lit('-') | eoi);
         
         singleton = digit | char_('a','w') | char_('y','z'); // "no-case" handles A-W and Y-Z
 
-        privateuse = "x" >> +("-" >> repeat(1,8)[alnum]);
+        privateuse = "x" >> +("-" >> repeat(1,8)[alnum]) >> (&lit('-') | eoi);
         
         grandfathered = regular | irregular;
         
