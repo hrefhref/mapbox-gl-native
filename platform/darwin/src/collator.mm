@@ -1,18 +1,45 @@
 #include <mbgl/style/expression/collator.hpp>
+#include <mbgl/text/language_tag.hpp>
+
+#include <sstream>
 
 #import <Foundation/Foundation.h>
 
 namespace mbgl {
+    
+std::string localeIdentifier(const std::string& bcp47) {
+    // Based on Apple docs at:
+    // https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPInternational/LanguageandLocaleIDs/LanguageandLocaleIDs.html#//apple_ref/doc/uid/10000171i-CH15-SW9
+    LanguageTag languageTag = LanguageTag::fromBCP47(bcp47);
+    std::stringstream localeIdentifier;
+    if (!languageTag.language) {
+        return localeIdentifier.str();
+    } else {
+        localeIdentifier << *(languageTag.language);
+    }
+    
+    if (languageTag.script) {
+        localeIdentifier << "-" << *(languageTag.script);
+    }
+    
+    if (languageTag.region) {
+        // TODO: Does locale identifier support UN M.49? If not we need to do a conversion or document
+        localeIdentifier << "_" << *(languageTag.region);
+    }
+    
+    return localeIdentifier.str();
+}
+
 namespace style {
 namespace expression {
-    
+
 class Collator::Impl {
 public:
     Impl(bool caseSensitive, bool diacriticSensitive, optional<std::string> locale_)
     : options(caseSensitive ? NSCaseInsensitiveSearch : 0 |
               diacriticSensitive ? NSDiacriticInsensitiveSearch : 0)
     , locale(locale_ ?
-                [[NSLocale alloc] initWithLocaleIdentifier:[NSString stringWithUTF8String:locale_->c_str()]] :
+                [[NSLocale alloc] initWithLocaleIdentifier:[NSString stringWithUTF8String:localeIdentifier(*locale_).c_str()]] :
                 [NSLocale currentLocale])
     {}
     
