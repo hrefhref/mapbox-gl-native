@@ -62,7 +62,7 @@ struct ValueType {
 };
     
 struct CollatorType {
-    constexpr CollatorType() = default;
+    constexpr CollatorType() {};
     std::string getName() const { return "collator"; }
     bool operator==(const CollatorType&) const { return true; }
 };
