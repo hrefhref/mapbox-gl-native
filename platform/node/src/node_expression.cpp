@@ -144,6 +144,14 @@ struct ToValue {
         return scope.Escape(result);
     }
 
+    v8::Local<v8::Value> operator()(const Collator&) {
+        // TODO: Collators are excluded from constant folding and there's no Literal parser
+        // for them so there shouldn't be any way to serialize this value.
+        // Is there a better way to omit this?
+        Nan::EscapableHandleScope scope;
+        return scope.Escape(Nan::Null());
+    }
+    
     v8::Local<v8::Value> operator()(const mbgl::Color& color) {
         return operator()(std::vector<Value> {
             static_cast<double>(color.r),
