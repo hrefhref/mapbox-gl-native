@@ -30,7 +30,7 @@ ParseResult CollatorExpression::parse(const Convertible& value, ParsingContext& 
         return ParseResult();
     }
     
-    const optional<Convertible> caseSensitiveOption = objectMember(value, "case-sensitive");
+    const optional<Convertible> caseSensitiveOption = objectMember(options, "case-sensitive");
     ParseResult caseSensitive;
     if (caseSensitiveOption) {
         caseSensitive = ctx.parse(*caseSensitiveOption, 1, {type::Boolean});
@@ -41,7 +41,7 @@ ParseResult CollatorExpression::parse(const Convertible& value, ParsingContext& 
         return ParseResult();
     }
 
-    const optional<Convertible> diacriticSensitiveOption = objectMember(value, "diacritic-sensitive");
+    const optional<Convertible> diacriticSensitiveOption = objectMember(options, "diacritic-sensitive");
     ParseResult diacriticSensitive;
     if (diacriticSensitiveOption) {
         diacriticSensitive = ctx.parse(*diacriticSensitiveOption, 1, {type::Boolean});
@@ -52,7 +52,7 @@ ParseResult CollatorExpression::parse(const Convertible& value, ParsingContext& 
         return ParseResult();
     }
     
-    const optional<Convertible> localeOption = objectMember(value, "locale");
+    const optional<Convertible> localeOption = objectMember(options, "locale");
     ParseResult locale;
     if (localeOption) {
         locale = ctx.parse(*localeOption, 1, {type::String});
