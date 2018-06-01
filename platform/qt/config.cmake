@@ -44,13 +44,12 @@ macro(mbgl_platform_core)
 
     if(NOT WITH_QT_I18N)
         target_sources(mbgl-core PRIVATE platform/default/bidi.cpp)
-        target_sources(mbgl-core PRIVATE platform/default/collator.cpp)
         target_add_mason_package(mbgl-core PRIVATE icu)
     else()
         target_sources(mbgl-core PRIVATE platform/qt/src/bidi.cpp)
-        target_sources(mbgl-core PRIVATE platform/qt/src/collator.cpp)
     endif()
 
+    target_sources(mbgl-core PRIVATE platform/default/collator.cpp)
     target_sources(mbgl-core PRIVATE platform/default/local_glyph_rasterizer.cpp)
 
     if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
