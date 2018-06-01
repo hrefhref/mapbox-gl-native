@@ -36,10 +36,10 @@ namespace expression {
 class Collator::Impl {
 public:
     Impl(bool caseSensitive, bool diacriticSensitive, optional<std::string> locale_)
-    : options(caseSensitive ? NSCaseInsensitiveSearch : 0 |
-              diacriticSensitive ? NSDiacriticInsensitiveSearch : 0)
+    : options((caseSensitive ? 0 : NSCaseInsensitiveSearch) |
+              (diacriticSensitive ? 0 : NSDiacriticInsensitiveSearch))
     , locale(locale_ ?
-                [[NSLocale alloc] initWithLocaleIdentifier:[NSString stringWithUTF8String:localeIdentifier(*locale_).c_str()]] :
+                [[NSLocale alloc] initWithLocaleIdentifier:@((*locale_).c_str())] :
                 [NSLocale currentLocale])
     {}
     
@@ -49,11 +49,14 @@ public:
     }
     
     int compare(const std::string& lhs, const std::string& rhs) const {
-        NSString* nsLhs = [NSString stringWithUTF8String:lhs.c_str()];
-        // TODO: verify "abc" != "abcde" -- the "range" argument seems strange to me
+        NSString* nsLhs = @(lhs.c_str());
+        NSString* nsRhs = @(rhs.c_str());
+        // Limiting the compare range to the length of the LHS seems weird, but
+        // experimentally we've checked that if LHS is a prefix of RHS compare returns -1
         // https://developer.apple.com/documentation/foundation/nsstring/1414561-compare
+        NSRange compareRange = NSMakeRange(0, nsLhs.length);
         
-        return [nsLhs compare:[NSString stringWithUTF8String:rhs.c_str()] options:options range:NSMakeRange(0, nsLhs.length) locale:locale];
+        return [nsLhs compare:nsRhs options:options range:compareRange locale:locale];
     }
     
     std::string resolvedLocale() const {

@@ -26,7 +26,7 @@ ParseResult CollatorExpression::parse(const Convertible& value, ParsingContext& 
 
     auto options = arrayMember(value, 1);
     if (!isObject(options)) {
-        ctx.error("CollatorExpression options argument must be an object.");
+        ctx.error("Collator options argument must be an object.");
         return ParseResult();
     }
     
@@ -89,13 +89,13 @@ bool CollatorExpression::operator==(const Expression& e) const {
 }
 
 mbgl::Value CollatorExpression::serialize() const {
-    std::unordered_map<std::string, mbgl::Value> result;
-    result["case-sensitive"] = caseSensitive->serialize();
-    result["diacritic-sensitive"] = diacriticSensitive->serialize();
+    std::unordered_map<std::string, mbgl::Value> options;
+    options["case-sensitive"] = caseSensitive->serialize();
+    options["diacritic-sensitive"] = diacriticSensitive->serialize();
     if (locale.get()) {
-        result["locale"] = locale->serialize();
+        options["locale"] = locale->serialize();
     }
-    return result;
+    return std::vector<mbgl::Value>{{ std::string("collator"), options }};
 }
     
 EvaluationResult CollatorExpression::evaluate(const EvaluationContext& params) const {
