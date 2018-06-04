@@ -123,7 +123,7 @@ void RenderRasterLayer::render(PaintParameters& parameters, RenderSource* source
         );
     };
 
-    if (auto* imageSource = source->as<RenderImageSource>()) {
+    if (RenderImageSource* imageSource = source->as<RenderImageSource>()) {
         if (imageSource->isEnabled() && imageSource->isLoaded() && !imageSource->bucket->needsUpload()) {
             RasterBucket& bucket = *imageSource->bucket;
 

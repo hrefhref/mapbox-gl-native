@@ -50,7 +50,7 @@ void Placement::placeLayer(RenderSymbolLayer& symbolLayer, const mat4& projMatri
             continue;
         }
         assert(dynamic_cast<GeometryTile*>(&renderTile.tile));
-        auto& geometryTile = static_cast<GeometryTile&>(renderTile.tile);
+        GeometryTile& geometryTile = static_cast<GeometryTile&>(renderTile.tile);
         
         
         auto bucket = geometryTile.getBucket(*symbolLayer.baseImpl);

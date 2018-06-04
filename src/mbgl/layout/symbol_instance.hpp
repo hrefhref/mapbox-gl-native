@@ -30,7 +30,7 @@ public:
                    const GlyphPositionMap&,
                    const IndexedSubfeature&,
                    const std::size_t featureIndex,
-                   std::u16string  key,
+                   const std::u16string& key,
                    const float overscaling);
 
     Anchor anchor;

@@ -29,7 +29,7 @@ public:
     GeometryTileWorker(ActorRef<GeometryTileWorker> self,
                        ActorRef<GeometryTile> parent,
                        OverscaledTileID,
-                       std::string ,
+                       const std::string&,
                        const std::atomic<bool>&,
                        const MapMode,
                        const float pixelRatio,

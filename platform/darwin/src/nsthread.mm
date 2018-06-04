@@ -23,5 +23,5 @@ void makeThreadLowPriority() {
     [[NSThread currentThread] setThreadPriority:0.0];
 }
 
-} // namespace platform
-} // namespace mbgl
+}
+}

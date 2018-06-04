@@ -19,11 +19,11 @@ static constexpr const size_t stubBitmapLength = 900;
 
 class StubLocalGlyphRasterizer : public LocalGlyphRasterizer {
 public:
-    bool canRasterizeGlyph(const FontStack&, GlyphID glyphID) override {
+    bool canRasterizeGlyph(const FontStack&, GlyphID glyphID) {
         return util::i18n::allowsIdeographicBreaking(glyphID);
     }
 
-    Glyph rasterizeGlyph(const FontStack&, GlyphID glyphID) override {
+    Glyph rasterizeGlyph(const FontStack&, GlyphID glyphID) {
         Glyph stub;
         stub.id = glyphID;
         

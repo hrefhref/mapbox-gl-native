@@ -9,7 +9,6 @@
 #include <mbgl/renderer/sources/render_image_source.hpp>
 #include <mbgl/renderer/sources/render_custom_geometry_source.hpp>
 #include <mbgl/tile/tile.hpp>
-#include <utility>
 
 namespace mbgl {
 
@@ -44,7 +43,7 @@ std::unique_ptr<RenderSource> RenderSource::create(Immutable<Source::Impl> impl)
 static RenderSourceObserver nullObserver;
 
 RenderSource::RenderSource(Immutable<style::Source::Impl> impl)
-    : baseImpl(std::move(impl)),
+    : baseImpl(impl),
       observer(&nullObserver) {
 }
 

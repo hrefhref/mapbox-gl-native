@@ -53,7 +53,7 @@ class LocalGlyphRasterizer::Impl {
 public:
     Impl(const optional<std::string> fontFamily_)
         : fontFamily(fontFamily_)
-        , fontHandle(nullptr)
+        , fontHandle(NULL)
     {}
     
     ~Impl() {
@@ -65,7 +65,7 @@ public:
     
     CTFontRef getFont() {
         if (!fontFamily) {
-            return nullptr;
+            return NULL;
         }
         
         if (!fontHandle) {
@@ -75,7 +75,7 @@ public:
             };
 
             CTFontDescriptorRefHandle descriptor(CTFontDescriptorCreateWithAttributes((CFDictionaryRef)fontAttributes));
-            fontHandle = CTFontCreateWithFontDescriptor(*descriptor, 0.0, nullptr);
+            fontHandle = CTFontCreateWithFontDescriptor(*descriptor, 0.0, NULL);
             if (!fontHandle) {
                 throw std::runtime_error("CTFontCreateWithFontDescriptor failed");
             }
@@ -93,7 +93,7 @@ LocalGlyphRasterizer::LocalGlyphRasterizer(const optional<std::string> fontFamil
 {}
 
 LocalGlyphRasterizer::~LocalGlyphRasterizer()
-= default;
+{}
 
 bool LocalGlyphRasterizer::canRasterizeGlyph(const FontStack&, GlyphID glyphID) {
     return util::i18n::allowsFixedWidthGlyphGeneration(glyphID) && impl->getFont();
@@ -102,7 +102,7 @@ bool LocalGlyphRasterizer::canRasterizeGlyph(const FontStack&, GlyphID glyphID) 
 PremultipliedImage drawGlyphBitmap(GlyphID glyphID, CTFontRef font, Size size) {
     PremultipliedImage rgbaBitmap(size);
     
-    CFStringRefHandle string(CFStringCreateWithCharacters(nullptr, reinterpret_cast<UniChar*>(&glyphID), 1));
+    CFStringRefHandle string(CFStringCreateWithCharacters(NULL, reinterpret_cast<UniChar*>(&glyphID), 1));
 
     CGColorSpaceHandle colorSpace(CGColorSpaceCreateDeviceRGB());
     if (!colorSpace) {

@@ -8,7 +8,6 @@
 #include <mbgl/style/custom_tile_loader.hpp>
 
 #include <mapbox/geojsonvt.hpp>
-#include <utility>
 
 namespace mbgl {
 
@@ -20,7 +19,7 @@ CustomGeometryTile::CustomGeometryTile(const OverscaledTileID& overscaledTileID,
     : GeometryTile(overscaledTileID, sourceID_, parameters),
     necessity(TileNecessity::Optional),
     options(options_),
-    loader(std::move(loader_)),
+    loader(loader_),
     mailbox(std::make_shared<Mailbox>(*Scheduler::GetCurrent())),
     actorRef(*this, mailbox) {
 }

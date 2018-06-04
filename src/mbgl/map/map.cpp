@@ -46,7 +46,7 @@ public:
          ConstrainMode,
          ViewportMode);
 
-    ~Impl() override;
+    ~Impl();
 
     // StyleObserver
     void onSourceChanged(style::Source&) override;
@@ -443,7 +443,7 @@ CameraOptions Map::cameraForGeometry(const Geometry<double>& geometry, const Edg
 
     std::vector<LatLng> latLngs;
     forEachPoint(geometry, [&](const Point<double>& pt) {
-        latLngs.emplace_back( pt.y, pt.x );
+        latLngs.push_back({ pt.y, pt.x });
     });
     return cameraForLatLngs(latLngs, padding, bearing);
 }

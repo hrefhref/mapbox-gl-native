@@ -1,6 +1,5 @@
 #include <mbgl/layout/symbol_instance.hpp>
 #include <mbgl/style/layers/symbol_layer_properties.hpp>
-#include <utility>
 
 namespace mbgl {
 
@@ -23,7 +22,7 @@ SymbolInstance::SymbolInstance(Anchor& anchor_,
                                const GlyphPositionMap& positions,
                                const IndexedSubfeature& indexedFeature,
                                const std::size_t featureIndex_,
-                               std::u16string  key_,
+                               const std::u16string& key_,
                                const float overscaling) :
     anchor(anchor_),
     line(line_),
@@ -37,7 +36,7 @@ SymbolInstance::SymbolInstance(Anchor& anchor_,
     featureIndex(featureIndex_),
     textOffset(textOffset_),
     iconOffset(iconOffset_),
-    key(std::move(key_)) {
+    key(key_) {
 
     // Create the quads used for rendering the icon and glyphs.
     if (shapedIcon) {

@@ -36,7 +36,7 @@ void main() {
 
 class TestLayer : public mbgl::style::CustomLayerHost {
 public:
-    void initialize() override {
+    void initialize() {
         program = MBGL_CHECK_ERROR(glCreateProgram());
         vertexShader = MBGL_CHECK_ERROR(glCreateShader(GL_VERTEX_SHADER));
         fragmentShader = MBGL_CHECK_ERROR(glCreateShader(GL_FRAGMENT_SHADER));
@@ -56,7 +56,7 @@ public:
         MBGL_CHECK_ERROR(glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(GLfloat), triangle, GL_STATIC_DRAW));
     }
 
-    void render(const mbgl::style::CustomLayerRenderParameters&) override {
+    void render(const mbgl::style::CustomLayerRenderParameters&) {
         MBGL_CHECK_ERROR(glUseProgram(program));
         MBGL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, buffer));
         MBGL_CHECK_ERROR(glEnableVertexAttribArray(a_pos));
@@ -64,9 +64,9 @@ public:
         MBGL_CHECK_ERROR(glDrawArrays(GL_TRIANGLE_STRIP, 0, 3));
     }
 
-    void contextLost() override {}
+    void contextLost() {}
 
-    void deinitialize() override {
+    void deinitialize() {
          if (program) {
                 MBGL_CHECK_ERROR(glDeleteBuffers(1, &buffer));
                 MBGL_CHECK_ERROR(glDetachShader(program, vertexShader));

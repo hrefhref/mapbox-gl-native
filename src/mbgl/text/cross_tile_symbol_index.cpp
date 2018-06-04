@@ -58,7 +58,8 @@ void TileLayerIndex::findMatches(std::vector<SymbolInstance>& symbolInstances, c
     }
 }
 
-CrossTileSymbolLayerIndex::CrossTileSymbolLayerIndex() = default;
+CrossTileSymbolLayerIndex::CrossTileSymbolLayerIndex() {
+}
 
 /*
  * Sometimes when a user pans across the antimeridian the longitude value gets wrapped.
@@ -161,7 +162,7 @@ bool CrossTileSymbolLayerIndex::removeStaleBuckets(const std::unordered_set<uint
     return tilesChanged;
 }
 
-CrossTileSymbolIndex::CrossTileSymbolIndex() = default;
+CrossTileSymbolIndex::CrossTileSymbolIndex() {}
 
 bool CrossTileSymbolIndex::addLayer(RenderSymbolLayer& symbolLayer, float lng) {
 

@@ -13,7 +13,6 @@
 #include <mbgl/style/types.hpp>
 #include <mbgl/renderer/render_tile.hpp>
 #include <mbgl/util/logging.hpp>
-#include <utility>
 
 namespace mbgl {
 
@@ -50,7 +49,7 @@ std::unique_ptr<RenderLayer> RenderLayer::create(Immutable<Layer::Impl> impl) {
 
 RenderLayer::RenderLayer(style::LayerType type_, Immutable<style::Layer::Impl> baseImpl_)
         : type(type_),
-          baseImpl(std::move(baseImpl_)) {
+          baseImpl(baseImpl_) {
 }
 
 void RenderLayer::setImpl(Immutable<style::Layer::Impl> impl) {
