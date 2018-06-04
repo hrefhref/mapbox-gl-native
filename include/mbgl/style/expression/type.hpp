@@ -62,7 +62,7 @@ struct ValueType {
 };
     
 struct CollatorType {
-    constexpr CollatorType() {};
+    constexpr CollatorType() {}; // NOLINT
     std::string getName() const { return "collator"; }
     bool operator==(const CollatorType&) const { return true; }
 };
