@@ -13,6 +13,9 @@ if(NOT WITH_QT_I18N)
     mason_use(icu VERSION 58.1-min-size)
 endif()
 
+# Used for default unicode collation and "unaccent" functionality
+mason_use(nunicode VERSION 1.8)
+
 macro(mbgl_platform_core)
     target_sources(mbgl-core
         ${MBGL_QT_CORE_FILES}
