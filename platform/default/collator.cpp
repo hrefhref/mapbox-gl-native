@@ -6,6 +6,8 @@
 #define NU_WITH_UNACCENT
 #include <libnu/libnu.h>
 
+#include <sstream>
+
 /*
     The default implementation of Collator ignores locale.
     Case sensitivity and collation order are based on
@@ -70,14 +72,14 @@ public:
     int compare(const std::string& lhs, const std::string& rhs) const {
         if (caseSensitive && diacriticSensitive) {
             return nu_strcoll(lhs.c_str(), rhs.c_str(),
-                              nu_utf8_read, nu_utf8_read)
+                              nu_utf8_read, nu_utf8_read);
         } else if (!caseSensitive && diacriticSensitive) {
             return nu_strcasecoll(lhs.c_str(), rhs.c_str(),
                                   nu_utf8_read, nu_utf8_read);
         } else if (caseSensitive && !diacriticSensitive) {
             return nu_strcoll(unaccent(lhs).c_str(), unaccent(rhs).c_str(),
                               nu_utf8_read, nu_utf8_read);
-        } else if (!caseSensitive && !diacriticSensitive) {
+        } else {
             return nu_strcasecoll(unaccent(lhs).c_str(), unaccent(rhs).c_str(),
                                   nu_utf8_read, nu_utf8_read);
         }
@@ -87,6 +89,8 @@ public:
         return "";
     }
 private:
+    bool caseSensitive;
+    bool diacriticSensitive;
 };
 
 
