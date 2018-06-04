@@ -52,6 +52,8 @@ macro(mbgl_platform_core)
         target_sources(mbgl-core PRIVATE platform/qt/src/bidi.cpp)
     endif()
 
+    target_add_mason_package(mbgl-core PUBLIC nunicode)
+
     target_sources(mbgl-core PRIVATE platform/default/collator.cpp)
     target_sources(mbgl-core PRIVATE platform/default/local_glyph_rasterizer.cpp)
 
